@@ -1,0 +1,80 @@
+<html>
+<head>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        var socket = io.connect('http://172.20.41.105');
+    </script>
+</head>
+<body ontouchstart="touchstart(event)" ontouchmove="touchstart(event)">
+
+<script>
+
+    //    document.body.addEventListener('touchstart', touchstart);
+    //    document.body.addEventListener('touchmove', touchstart);
+
+//    var map = {
+//        "10": function () {
+//            socket.emit('forward');
+//        },
+//        "12": function () {
+//            socket.emit('backward');
+//        },
+//        "11": function () {
+//            socket.emit('stop');
+//        },
+//        "01": function () {
+//            socket.emit('hardLeft');
+//        },
+//        "00": function () {
+//            socket.emit('left');
+//        },
+//        "02": function () {
+//            socket.emit('hardLeft');
+//        },
+//        "20": function () {
+//            socket.emit('right');
+//        },
+//        "22": function () {
+//            socket.emit('right');
+//        },
+//        "21": function () {
+//            socket.emit('right');
+//        }
+//    };
+
+
+    function touchstart(event) {
+        [].slice.call(event.changedTouches).forEach(function (t) {
+            if (t.identifier === 0) {
+                var seg = fn(t.screenX, t.screenY);
+                document.getElementById("output").innerHTML = seg.x + " - " + seg.y;
+                socket.emit('move',seg);
+            }
+        });
+    }
+
+    function touchTranslator(rect, q) {
+        return cvt;
+
+        function cvt(x, y) {
+            var point = {
+                x: (x - rect.left) / (rect.right - rect.left),
+                y: (y - rect.top) / (rect.bottom - rect.top)
+            };
+
+            if (q) {
+                point.x = q * point.x | 0;
+                point.y = q * point.y | 0;
+            }
+
+            return point;
+        }
+    }
+    var fn = touchTranslator({
+        top: 0, left: 0,
+        bottom: screen.height, right: screen.width
+    }, 3);
+</script>
+<div id="output"></div>
+</body>
+</html>

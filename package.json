@@ -1,0 +1,12 @@
+{
+  "name": "nodebot",
+  "description": "simple bot",
+  "version": "0.1.0",
+  "author": "hachr",
+  "dependencies": {
+    "serialport": "*",
+    "johnny-five": "*",
+    "temporal":"*"
+  }
+}
+
